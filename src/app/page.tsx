@@ -1,7 +1,10 @@
 import { Suspense } from "react";
 
 import { CompanySearch } from "~/app/_components/company-search";
-import { RecentReports } from "~/app/_components/recent-reports";
+import {
+  RecentReports,
+  RecentReportsHeading,
+} from "~/app/_components/recent-reports";
 import { api, HydrateClient } from "~/trpc/server";
 
 export const dynamic = "force-dynamic";
@@ -26,12 +29,12 @@ export default async function Home() {
         <CompanySearch />
 
         <section className="mt-10 sm:mt-12">
-          <h2 className="mb-3 text-sm font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400">
-            Recent reports
-          </h2>
           <Suspense
             fallback={
-              <div className="h-32 animate-pulse rounded-xl bg-slate-200/60 dark:bg-slate-800/60" />
+              <>
+                <RecentReportsHeading />
+                <div className="h-32 animate-pulse rounded-xl bg-slate-200/60 dark:bg-slate-800/60" />
+              </>
             }
           >
             <RecentReports />

@@ -80,7 +80,9 @@ export const companyRouter = createTRPCRouter({
           companyName: input.candidate.name,
           domain,
           candidate: input.candidate,
-          progress: [{ at: Date.now(), kind: "status", label: "Research started" }],
+          progress: [
+            { at: Date.now(), kind: "status", label: "Research started" },
+          ],
         })
         .returning({ id: reports.id });
       if (!row) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
@@ -95,7 +97,8 @@ export const companyRouter = createTRPCRouter({
       const row = await ctx.db.query.reports.findFirst({
         where: eq(reports.id, input.id),
       });
-      if (!row) throw new TRPCError({ code: "NOT_FOUND", message: "Report not found" });
+      if (!row)
+        throw new TRPCError({ code: "NOT_FOUND", message: "Report not found" });
 
       const lastActivity = row.updatedAt ?? row.createdAt;
       if (
@@ -124,4 +127,16 @@ export const companyRouter = createTRPCRouter({
       },
     }),
   ),
+
+  /** A run still in progress for a deleted row finishes harmlessly: its updates match no rows. */
+  delete: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.delete(reports).where(eq(reports.id, input.id));
+    }),
+
+  deleteAll: publicProcedure.mutation(async ({ ctx }) => {
+    // eslint-disable-next-line drizzle/enforce-delete-with-where -- clearing every report is the point
+    await ctx.db.delete(reports);
+  }),
 });

@@ -14,6 +14,7 @@ Built for the One Day Build Challenge (Project 1: Company Research Tool) with th
   - If Claude found evidence of the company's email format (e.g. `{first}.{last}@acme.com`), the app derives a likely address per person and labels it **Suggested · unverified**. The AI never invents addresses.
 - **Exports.** Download contacts as CSV, the whole report as JSON, or print it / save it as a PDF.
 - **History and reuse.** Reports are saved. Researching the same company (matched by domain) within 7 days reopens the existing report, and *Re-run research* forces a fresh one.
+- **Manage history.** Delete individual completed or failed reports from the recent reports list. Reports currently being researched cannot be deleted.
 - **Cost transparency.** Each report shows duration, number of searches and pages read, token usage and an estimated API cost.
 
 ## How it works
