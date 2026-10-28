@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+/*
+ * Dark mode is driven by a `dark` class on <html> (set before first paint by the script in
+ * layout.tsx) instead of the media query, so users can override their system setting.
+ * It only applies on screen: printed / PDF reports always use the light theme.
+ */
+@custom-variant dark {
+  @media screen {
+    &:where(.dark, .dark *) {
+      @slot;
+    }
+  }
+}
+
+@theme {
+  --font-sans:
+    var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+@media screen {
+  html.dark {
+    color-scheme: dark;
+  }
+}
